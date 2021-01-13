@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import {NextPage} from 'next';
-import {Navbar} from '../../components/shared/NavBar';
+import {Navbar} from '@/components/shared/NavBar';
 
 interface IProps {
     id: string;

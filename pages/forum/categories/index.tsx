@@ -1,5 +1,5 @@
 import {FC} from 'react';
-import {Navbar} from '../../../components/shared/NavBar';
+import {Navbar} from '@/components/shared/NavBar';
 
 const ForumCategories: FC = () => {
 	return (

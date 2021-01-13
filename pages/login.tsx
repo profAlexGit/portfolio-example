@@ -1,11 +1,10 @@
 import {NextPage} from 'next';
-import {Navbar} from '../components/shared/NavBar';
+import {Navbar} from '@/components/shared/NavBar';
 
 const Login: NextPage = () => {
 	return (
 		<>
 			<Navbar />
-
 			<div className="container">
 				<section className="section-title">
 					<div className="px-2">
