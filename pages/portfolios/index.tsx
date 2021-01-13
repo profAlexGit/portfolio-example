@@ -1,6 +1,7 @@
 import {NextPage} from 'next';
+import { IAppProps } from '@/types/app';
 
-interface IProps {
+interface IProps extends IAppProps {
 	testingData: string;
 }
 
@@ -10,7 +11,7 @@ const apiCall = () => {
 	})
 }
 
-const Portfolios: NextPage<IProps> = ({testingData}) => {
+const Portfolios: NextPage<IProps> = ({testingData, appData}) => {
 	return (
 		<>
 			{testingData}
@@ -77,7 +78,7 @@ const Portfolios: NextPage<IProps> = ({testingData}) => {
 Portfolios.getInitialProps = async () => {
 	const res = await apiCall()
 	.then (() => 'Just some testing Data');
-	return {testingData: res};
+	return {testingData: res} as IProps;
 }
 
 export default Portfolios;
