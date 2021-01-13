@@ -1,7 +1,7 @@
-import {FC} from 'react';
+import {NextPage} from 'next';
 import {Navbar} from '../../components/shared/NavBar';
 
-const Portfolios: FC = () => {
+const Portfolios: NextPage = () => {
 	return (
 		<>
 			<Navbar />

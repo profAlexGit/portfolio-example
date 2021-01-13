@@ -3,7 +3,7 @@ import {NextPage} from 'next';
 import {Navbar} from '../../components/shared/NavBar';
 
 interface IProps {
-    id: string | string[];
+    id: string;
 }
 
 const PortfolioDetail: NextPage<IProps> = ({id}) => {
@@ -18,7 +18,7 @@ const PortfolioDetail: NextPage<IProps> = ({id}) => {
 };
 
 PortfolioDetail.getInitialProps = ({query}) => {
-    const id = query.id;
+    const id = query.id as string;
     return {id};
 }
 
