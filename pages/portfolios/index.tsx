@@ -1,9 +1,11 @@
 import {NextPage} from 'next';
+import Link from 'next/link';
 import axios from 'axios';
 import {IAppProps} from '@/types/app';
 import {PortfolioCard} from '@/components/portfolios/PortfolioCard';
 import {IPortfolio} from '@/types/portfolio.types';
-import { TPortfoliosResponse } from '@/types/response.types';
+import {TPortfoliosResponse} from '@/types/response.types';
+
 
 interface IProps extends IAppProps {
 	portfolios: IPortfolio[];
@@ -14,9 +16,6 @@ const fetchPortfolios = () => {
 			portfolios {
 				_id
 				title
-				company,
-				companyWebsite
-				location
 				jobTitle
 				description
 				startDate
@@ -43,7 +42,16 @@ const Portfolios: NextPage<IProps> = ({portfolios}) => {
 			<section className="pb-5">
 				<div className="row">
 					{portfolios.map((portfolio) => (
-						<PortfolioCard key={portfolio._id} {...portfolio} />
+						<div className="col-md-4">
+							<Link 
+								href={`/portfolios/[id]`}
+								as={`/portfolios/${portfolio._id}`}
+							>
+								<a className="card-link">
+									<PortfolioCard key={portfolio._id} {...portfolio} />
+								</a>
+							</Link>
+						</div>
 					))}
 				</div>
 			</section>

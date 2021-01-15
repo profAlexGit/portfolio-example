@@ -14,7 +14,7 @@ const data = {
 			_id: 'sad87da79',
 			title: 'Job in Netcentric',
 			company: 'Netcentric',
-			companyWebsite: 'www.google.com',
+			companyWebsite: 'https://google.com',
 			location: 'Spain, Barcelona',
 			jobTitle: 'Engineer',
 			description: 'Doing something, programing....',
@@ -25,7 +25,7 @@ const data = {
 			_id: 'da789ad1',
 			title: 'Job in Siemens',
 			company: 'Siemens',
-			companyWebsite: 'www.google.com',
+			companyWebsite: 'https://google.com',
 			location: 'Slovakia, Kosice',
 			jobTitle: 'Software Engineer',
 			description: 'Responsoble for parsing framework for JSON medical data.',
@@ -36,7 +36,7 @@ const data = {
 			_id: 'sadcxv9',
 			title: 'Work in USA',
 			company: 'WhoKnows',
-			companyWebsite: 'www.google.com',
+			companyWebsite: 'https://google.com',
 			location: 'USA, Montana',
 			jobTitle: 'Housekeeping',
 			description: 'So much responsibility....Overloaaaaaad',
@@ -63,7 +63,7 @@ app.prepare().then(() => {
 			},
 		type Query {
 			hello: String,
-			portfolio: Portfolio,
+			portfolio(id: ID): Portfolio,
 			portfolios: [Portfolio]
 		}
 	`);
@@ -72,8 +72,9 @@ app.prepare().then(() => {
 		hello: () => {
 			return 'Hello world!!';
 		},
-		portfolio: () => {
-			return data.portfolios[2];
+		portfolio: ({id}) => {
+			const portfolio = data.portfolios.find(({_id}) => _id === id)
+			return portfolio;
 		},
 		portfolios: () => {
 			return data.portfolios;
