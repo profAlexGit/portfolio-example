@@ -1,20 +1,51 @@
 import {NextPage} from 'next';
-import { IAppProps } from '@/types/app';
+import axios from 'axios';
+import {IAppProps} from '@/types/app';
 
+
+interface IPortfolio {
+	_id: string;
+	title: string;
+	company: string;
+	companyWebsite: string;
+	location: string;
+	jobTitle: string;
+	description: string;
+	startDate: string;
+	endDate: string;
+}
 interface IProps extends IAppProps {
-	testingData: string;
+	portfolios: IPortfolio[];
 }
 
-const apiCall = () => {
-	return new Promise((res, rej) => {
-		setTimeout(res, 200)
-	})
+interface IResponse<U, T extends keyof any = ''> {
+	data: {[P in T]: U};
 }
 
-const Portfolios: NextPage<IProps> = ({testingData, appData}) => {
+const fetchPortfolios = () => {
+	const query = `query Portfolios {
+			portfolios {
+				_id
+				title
+				company,
+				companyWebsite
+				location
+				jobTitle
+				description
+				startDate
+				endDate
+			}
+		}`;
+
+	return axios
+		.post<IResponse<IPortfolio[], 'portfolios'>>('http://localhost:3000/graphql', {query})
+		.then(({data: graph}) => graph.data)
+		.then((data) => data.portfolios);
+};
+
+const Portfolios: NextPage<IProps> = ({portfolios}) => {
 	return (
 		<>
-			{testingData}
 			<section className="section-title">
 				<div className="px-2">
 					<div className="pt-5 pb-4">
@@ -76,9 +107,8 @@ const Portfolios: NextPage<IProps> = ({testingData, appData}) => {
 };
 
 Portfolios.getInitialProps = async () => {
-	const res = await apiCall()
-	.then (() => 'Just some testing Data');
-	return {testingData: res} as IProps;
+	const portfolios = await fetchPortfolios();
+	return {portfolios} as IProps;
 }
 
 export default Portfolios;

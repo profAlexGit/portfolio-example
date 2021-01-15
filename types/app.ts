@@ -1,6 +1,5 @@
 export interface IAppProps {
 	appData: string;
-	
 }
 
 interface IProps extends IAppProps {
