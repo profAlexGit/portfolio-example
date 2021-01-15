@@ -42,13 +42,10 @@ const Portfolios: NextPage<IProps> = ({portfolios}) => {
 			<section className="pb-5">
 				<div className="row">
 					{portfolios.map((portfolio) => (
-						<div className="col-md-4">
-							<Link 
-								href={`/portfolios/[id]`}
-								as={`/portfolios/${portfolio._id}`}
-							>
+						<div key={portfolio._id} className="col-md-4">
+							<Link href={`/portfolios/[id]`} as={`/portfolios/${portfolio._id}`}>
 								<a className="card-link">
-									<PortfolioCard key={portfolio._id} {...portfolio} />
+									<PortfolioCard {...portfolio} />
 								</a>
 							</Link>
 						</div>
