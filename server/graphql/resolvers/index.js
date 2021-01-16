@@ -36,22 +36,33 @@ const data = {
 	],
 };
 
-exports.portfolioResolvers = {
+exports.portfolioQueries = {
 	hello: () => {
 		return 'Hello world!!';
 	},
-	portfolio: ({id}) => {
+	portfolio: (root, {id}) => {
 		const portfolio = data.portfolios.find(({_id}) => _id === id);
 		return portfolio;
 	},
 	portfolios: () => {
 		return data.portfolios;
-	},
-	createPortfolio: ({portfolio}) => {
+	},	
+};
+
+exports.portfolioMutations = {
+	createPortfolio: (root, {portfolio}) => {
 		const _id = require('crypto').randomBytes(10).toString('hex');
 		const newPortfolio = {...portfolio, _id};
 		// portfolio._id = _id;
 		data.portfolios.push(newPortfolio);
 		return newPortfolio;
 	},
-};
+
+	updatePortfolio: (root, {id, portfolio}) => {
+		const idx = data.portfolios.findIndex(({_id}) => _id === id );
+		const oldPortfolio = data.portfolios[idx];
+		const newPortfolio = {_id: id, ...portfolio};
+		data.portfolios[idx] = {...oldPortfolio, ...newPortfolio};
+		return data.portfolios[idx];
+	}
+}
