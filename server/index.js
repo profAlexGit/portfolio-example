@@ -15,7 +15,10 @@ app.prepare().then(() => {
 	const server = express();
 
 	const schema = buildSchema(`
-		${portfolioTypes},
+		${portfolioTypes}
+		type Mutation {
+			createPortfolio(portfolio: PortfolioInput): Portfolio
+		}
 		type Query {
 			hello: String,
 			portfolio(id: ID): Portfolio,
