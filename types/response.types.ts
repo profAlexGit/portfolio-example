@@ -10,8 +10,10 @@ export  type TCreatePortfolioResponse = IResponse<IPortfolio, 'createPortfolio'>
 export  type TUpdatePortfolioResponse = IResponse<IPortfolio, 'updatePortfolio'>;
 export  type TDeletePortfolioResponse = IResponse<string, 'deletePortfolio'>;
 
-interface IApolloResponse<U, T extends keyof any = ''> {
-	[P: string]: U
+interface IApolloResponse<U, T extends keyof any = 'portfolio'> {
+	[T: string]: U
 }
 
-export type TResponseSinglePortfolio = IApolloResponse<IPortfolio, 'portfolio'>;
+export interface IResponseSinglePortfolio {
+	'portfolio': IPortfolio
+};

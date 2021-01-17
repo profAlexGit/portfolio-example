@@ -1,9 +1,10 @@
 import {NextPage} from 'next';
-import {useQuery} from '@apollo/react-hooks';
-import {TResponseSinglePortfolio} from '@/types/response.types';
+import {useLazyQuery, useQuery} from '@apollo/react-hooks';
+import {IResponseSinglePortfolio} from '@/types/response.types';
 import {IPortfolio} from '@/types/portfolio.types';
 import {GET_PORTFOLIO} from '@/apollo/queries';
 import { ParsedUrlQuery } from 'querystring';
+import { useEffect, useState } from 'react';
 
 interface IProps {
 	query: ParsedUrlQuery;
@@ -14,15 +15,25 @@ interface IResponse {
 }
 
 const PortfolioDetail: NextPage<IProps> = ({query}) => {
-	const {loading, error, data} = useQuery<TResponseSinglePortfolio>(GET_PORTFOLIO, {
-		variables: {id: query.id},
-	});
+	const [portfolio, setPortfolio] = useState<IPortfolio | null>(null)
 
-	if (loading) {
+	const [getPortfolio , {loading, data}] = useLazyQuery<IResponseSinglePortfolio>(GET_PORTFOLIO);
+
+	useEffect(() => {
+		getPortfolio({variables: {id: query.id}});
+	}, []);
+
+	if (data && !portfolio) {
+		setPortfolio(data.portfolio);
+	}
+
+	if (loading || !portfolio) {
 		return <>Loading...</>;
 	}
+
 	
-	const {title, jobTitle, location, description, companyWebsite, startDate, endDate} = data.portfolio || {};
+	
+	const {title, jobTitle, location, description, companyWebsite, startDate, endDate} = portfolio || {};
 
 	return (
 		<div className="portfolio-detail">
