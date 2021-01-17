@@ -18,6 +18,7 @@ app.prepare().then(() => {
 		type Mutation {
 			createPortfolio(portfolio: PortfolioInput): Portfolio,
 			updatePortfolio(id: ID, portfolio: PortfolioInput): Portfolio,
+			deletePortfolio(id: ID): ID,
 		}
 		type Query {
 			hello: String,

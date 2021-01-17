@@ -6,3 +6,6 @@ interface IResponse<U, T extends keyof any = ''> {
 
 export type TPortfoliosResponse = IResponse<IPortfolio[], 'portfolios'>;
 export type TSinglePortfolioResponse = IResponse<IPortfolio, 'portfolio'>;
+export  type TCreatePortfolioResponse = IResponse<IPortfolio, 'createPortfolio'>;
+export  type TUpdatePortfolioResponse = IResponse<IPortfolio, 'updatePortfolio'>;
+export  type TDeletePortfolioResponse = IResponse<string, 'deletePortfolio'>;
