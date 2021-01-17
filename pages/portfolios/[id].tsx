@@ -1,36 +1,29 @@
 import {NextPage} from 'next';
-import axios from 'axios';
-import {TSinglePortfolioResponse} from '@/types/response.types';
+import {useQuery} from '@apollo/react-hooks';
+import {TResponseSinglePortfolio} from '@/types/response.types';
 import {IPortfolio} from '@/types/portfolio.types';
+import {GET_PORTFOLIO} from '@/apollo/queries';
+import { ParsedUrlQuery } from 'querystring';
+
 interface IProps {
+	query: ParsedUrlQuery;
+}
+
+interface IResponse {
 	portfolio: IPortfolio;
 }
 
-const fetchPortfolio = (id: string) => {
-	const query = `query Portfolio($id: ID) {
-			portfolio(id: $id) {
-				_id
-				title
-				company,
-				companyWebsite
-				location
-				jobTitle
-				description
-				startDate
-				endDate
-			}
-		}`;
+const PortfolioDetail: NextPage<IProps> = ({query}) => {
+	const {loading, error, data} = useQuery<TResponseSinglePortfolio>(GET_PORTFOLIO, {
+		variables: {id: query.id},
+	});
 
-	const variables = {id};
+	if (loading) {
+		return <>Loading...</>;
+	}
+	
+	const {title, jobTitle, location, description, companyWebsite, startDate, endDate} = data.portfolio || {};
 
-	return axios
-		.post<TSinglePortfolioResponse>('http://localhost:3000/graphql', {query, variables})
-		.then(({data: graph}) => graph.data)
-		.then((data) => data.portfolio);
-};
-
-const PortfolioDetail: NextPage<IProps> = ({portfolio}) => {
-	const {title, jobTitle, location, description, companyWebsite, startDate, endDate} = portfolio;
 	return (
 		<div className="portfolio-detail">
 			<div className="container">
@@ -72,8 +65,7 @@ const PortfolioDetail: NextPage<IProps> = ({portfolio}) => {
 };
 
 PortfolioDetail.getInitialProps = async ({query}) => {
-	const portfolio = await fetchPortfolio(query.id as string);
-	return {portfolio};
+	return {query};
 };
 
 export default PortfolioDetail;
