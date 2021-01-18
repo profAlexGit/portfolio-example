@@ -5,7 +5,7 @@ const data = {
 			title: 'Job in Netcentric',
 			company: 'Netcentric',
 			companyWebsite: 'https://google.com',
-			location: 'Spain, Barcelona',
+			location: 'Spain, Barcelona!',
 			jobTitle: 'Engineer',
 			description: 'Doing something, programing....',
 			startDate: '01/01/2014',

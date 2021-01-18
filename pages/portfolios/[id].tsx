@@ -1,39 +1,21 @@
 import {NextPage} from 'next';
-import {useLazyQuery, useQuery} from '@apollo/react-hooks';
-import {IResponseSinglePortfolio} from '@/types/response.types';
-import {IPortfolio} from '@/types/portfolio.types';
-import {GET_PORTFOLIO} from '@/apollo/queries';
 import { ParsedUrlQuery } from 'querystring';
-import { useEffect, useState } from 'react';
+import withApollo from '@/hoc/withApollo';
+import {getDataFromTree} from '@apollo/react-ssr';
+import { useGetSinglePortfolio } from '@/apollo/actions';
 
 interface IProps {
 	query: ParsedUrlQuery;
 }
 
-interface IResponse {
-	portfolio: IPortfolio;
-}
-
 const PortfolioDetail: NextPage<IProps> = ({query}) => {
-	const [portfolio, setPortfolio] = useState<IPortfolio | null>(null)
-
-	const [getPortfolio , {loading, data}] = useLazyQuery<IResponseSinglePortfolio>(GET_PORTFOLIO);
-
-	useEffect(() => {
-		getPortfolio({variables: {id: query.id}});
-	}, []);
-
-	if (data && !portfolio) {
-		setPortfolio(data.portfolio);
-	}
-
-	if (loading || !portfolio) {
-		return <>Loading...</>;
-	}
-
+	const {data, loading} = useGetSinglePortfolio(query.id as string);
 	
+	if (loading) {
+		return <> Loading... </>
+	}
 	
-	const {title, jobTitle, location, description, companyWebsite, startDate, endDate} = portfolio || {};
+	const {title, jobTitle, location, description, companyWebsite, startDate, endDate} = data.portfolio || {};
 
 	return (
 		<div className="portfolio-detail">
@@ -79,4 +61,4 @@ PortfolioDetail.getInitialProps = async ({query}) => {
 	return {query};
 };
 
-export default PortfolioDetail;
+export default withApollo(PortfolioDetail, {getDataFromTree});

@@ -17,3 +17,15 @@ interface IApolloResponse<U, T extends keyof any = 'portfolio'> {
 export interface IResponseSinglePortfolio {
 	'portfolio': IPortfolio
 };
+export interface IResponsePortfolios {
+	'portfolios': IPortfolio[]
+};
+export interface IResponseCreatePortfolio {
+	'createPortfolio': IPortfolio
+};
+export interface IResponseUpdatePortfolio {
+	'updatePortfolio': IPortfolio
+};
+export interface IResponseDeletePortfolio {
+	'deletePortfolio': string
+};
